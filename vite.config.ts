@@ -6,9 +6,9 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// When building on Netlify (or any non-Lovable environment), produce a fully
-// static prerendered site that can be served from `dist/`. Inside the Lovable
-// sandbox we keep the default Cloudflare Worker build.
+// When building on Netlify, switch Nitro's deploy preset to "netlify" so the
+// output is a Netlify-compatible SSR bundle (functions + static assets).
+// Inside the Lovable sandbox we keep the default Cloudflare Worker build.
 const isNetlify = !!process.env.NETLIFY;
 
 export default defineConfig({
@@ -18,8 +18,7 @@ export default defineConfig({
   ...(isNetlify
     ? {
         nitro: {
-          preset: "static",
-          output: { dir: "dist", publicDir: "dist" },
+          preset: "netlify",
         },
       }
     : {}),
